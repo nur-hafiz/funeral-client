@@ -23,7 +23,7 @@ export const useServices = () => {
                 }
            }`;
            const { data } = await axios.post(url, {
-               data: {query} // Stringify the data payload
+               data: {query}
            });
            return data;
         }
