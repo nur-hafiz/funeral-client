@@ -1,6 +1,6 @@
 function __vite__mapDeps(indexes) {
   if (!__vite__mapDeps.viteFileDeps) {
-    __vite__mapDeps.viteFileDeps = ["assets/AboutView-BsmcuNHi.js","assets/AboutView-C6Dx7pxG.css"]
+    __vite__mapDeps.viteFileDeps = ["assets/AboutView-96E0Yc6M.js","assets/AboutView-C6Dx7pxG.css"]
   }
   return indexes.map((i) => __vite__mapDeps.viteFileDeps[i])
 }
@@ -50,4 +50,4 @@ function __vite__mapDeps(indexes) {
                         }
                     }
                 }
-           }`,{data:n}=await re.post(Qf,{data:JSON.stringify({query:t})});return n}}}),Yf=Pe("h1",null,"Welcome to Funeral Service",-1),Zf=en({__name:"Home",setup(e){const{api:t}=Xf(),n=Vr([]);return ri(async()=>{n.value=await t.getAll()}),(r,s)=>(Gr(),Jr(xe,null,[Yf,dt(" "+xo(n.value),1)],64))}}),ed=ya({history:Gu("/"),routes:[{path:"/",name:"home",component:Zf},{path:"/about",name:"about",component:()=>Ia(()=>import("./AboutView-BsmcuNHi.js"),__vite__mapDeps([0,1]))}]}),is=fu(Ca);is.use(gu());is.use(ed);is.mount("#app");export{Ti as _,Pe as a,Jr as c,Gr as o};
+           }`,{data:n}=await re.post(Qf,{data:{query:t}});return n}}}),Yf=Pe("h1",null,"Welcome to Funeral Service",-1),Zf=en({__name:"Home",setup(e){const{api:t}=Xf(),n=Vr([]);return ri(async()=>{n.value=await t.getAll()}),(r,s)=>(Gr(),Jr(xe,null,[Yf,dt(" "+xo(n.value),1)],64))}}),ed=ya({history:Gu("/"),routes:[{path:"/",name:"home",component:Zf},{path:"/about",name:"about",component:()=>Ia(()=>import("./AboutView-96E0Yc6M.js"),__vite__mapDeps([0,1]))}]}),is=fu(Ca);is.use(gu());is.use(ed);is.mount("#app");export{Ti as _,Pe as a,Jr as c,Gr as o};
