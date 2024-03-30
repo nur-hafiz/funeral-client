@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = 'https://api.hafiz.dev/graphql/'
+const url = 'https://api.hafiz.dev/graphql/';
 
 export const useServices = () => {
     const api = {
@@ -21,13 +21,15 @@ export const useServices = () => {
                         }
                     }
                 }
-           }`
-           const { data } = await axios({url, data: {query} })
-           return data
+           }`;
+           const { data } = await axios.post(url, {
+               data: JSON.stringify({query}) // Stringify the data payload
+           });
+           return data;
         }
-    }
+    };
 
     return {
         api
-    }
+    };
 }
