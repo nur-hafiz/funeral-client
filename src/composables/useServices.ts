@@ -23,12 +23,14 @@ export const useServices = () => {
                  }
             }`;
 
-           const { data } = await axios.post(url, {
+           const { data } = await axios({
+            url: url,
+            method: 'post',
             headers: {
-                'Content-Type': 'application/json'
-              },
-               query: JSON.stringify(query)
-           });
+              'Content-Type': 'application/json',
+            },
+            data: JSON.stringify({ query })
+          })
            return data;
         }
     };
