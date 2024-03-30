@@ -27,7 +27,7 @@ export const useServices = () => {
             headers: {
                 'Content-Type': 'application/json'
               },
-               query
+               query: JSON.stringify(query)
            });
            return data;
         }
