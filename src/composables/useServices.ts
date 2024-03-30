@@ -24,6 +24,9 @@ export const useServices = () => {
             }`;
 
            const { data } = await axios.post(url, {
+            headers: {
+                'Content-Type': 'application/json'
+              },
                query
            });
            return data;
