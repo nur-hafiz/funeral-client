@@ -1,26 +1,43 @@
 <template>
     <div class="row pt-5">
-        <div class="col-6">
-            <h1 class="display-1">{{ home.acf?.page_title }}</h1>
-            <p class="display-5">{{ home.acf?.page_sub_title }}</p>
+        <div class="col-6 d-flex flex-column justify-content-center">
+            <h1 class="display-1 mt-n3">{{ home.acf?.page_title }}</h1>
+            <p class="display-5 pb-5">{{ home.acf?.page_sub_title }}</p>
+            <router-link to="/packages">
+                <Button class="position-relative" style="top: -1px" label="Learn more about our services" />
+            </router-link>
         </div>
+
         <div class="header-images col-6 position-relative">
             <img class="position-absolute" v-if="herobanner.guid" :src="herobanner.guid.rendered" :alt="herobanner.alt_text">
             <img class="position-absolute" v-if="heroSquareImage.guid" :src="heroSquareImage.guid.rendered" :alt="heroSquareImage.alt_text">
         </div>
     </div>
-    <Service v-for="service in services" :key="service.id" :service="service"/>
+
+    <Support />
+    <CallToAction v-if="home.acf" :page="home"/>
+
+    <div v-if="usePage.callToAction.slug">
+        <h5>{{ home.acf.call_to_action_title }}</h5>
+        <h6>{{ home.acf.call_to_action_sub_title }}</h6>
+        <router-link :to="usePage.callToAction.slug">
+            <Button class="position-relative" style="top: -1px" :label="home.acf.call_to_action_button_label" />
+        </router-link>
+    </div>
+    <!-- <Service v-for="service in services" :key="service.id" :service="service"/> -->
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue';
 import { useServices } from '@/composables/useServices'
+import Support from './Support.vue'
 import { usePages } from '@/composables/usePages'
 import { useMedias } from '@/composables/useMedias'
-import Service from './home/Service.vue';
+import Service from './Service.vue';
 import type { Service as ServiceType } from '@/types/Services.ts'
 import type { Home } from '@/types/Home.ts'
 import type { Media } from '@/types/Media.ts'
+import CallToAction from '@/components/CallToAction.vue'
 
 const { api } = useServices()
 const useMedia = useMedias()
@@ -46,6 +63,7 @@ onMounted(async () => {
     img {
         height: 400px;
         top: 10px;
+        width: unset;
     }
 
     img:first-child {
@@ -54,7 +72,7 @@ onMounted(async () => {
 
     img:last-child {
         right: 0;
-        border: 15px solid white;
+        border: 15px solid #F5F5F5;
         top: 200px;
     }
 }

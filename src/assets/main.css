@@ -5,3 +5,19 @@ main {
 #navbar ul {
     margin-bottom: 0;
 }
+
+ul.p-submenu-list {
+    padding-left: 0;
+}
+
+li {
+    list-style: none;
+}
+
+body {
+    background-color: #F5F5F5;
+}
+
+img {
+    width: 100%;    
+}

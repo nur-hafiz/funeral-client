@@ -18,5 +18,9 @@ export type Page = {
     acf: {
         page_title: string;
         page_sub_title: string;
+        call_to_action_title: string;
+        call_to_action_sub_title: string;
+        call_to_action_button_label: string;
+        call_to_action_link: number;
     }
 };
