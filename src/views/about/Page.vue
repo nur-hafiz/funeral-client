@@ -13,17 +13,19 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted } from 'vue';
+import { reactive, onMounted, inject } from 'vue';
 import { usePages } from '@/composables/usePages'
 import type { About } from '@/types/About';
 import Founder from './Founder.vue';
 import Team from './Team.vue';
-
+import { useCallToActions } from '@/composables/useCallToActions';
+const cta = inject('cta') as ReturnType<typeof useCallToActions>;
 const usePage = usePages()
 const about = reactive({}) as About
 
 onMounted(async () => {
     Object.assign(about, await usePage.api.getPageBySlug('about'))
+    cta.update(about)
 })
 </script>
 

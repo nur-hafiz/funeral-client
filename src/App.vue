@@ -15,10 +15,11 @@
           </template>
       </Menubar>
 
-    <main>
+    <main class="pb-4">
         <RouterView />
     </main>
 
+    <CallToAction />
     <footer>
         
     </footer>
@@ -27,7 +28,12 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import Menubar from 'primevue/menubar';
-import { ref } from "vue";
+import { ref, provide } from "vue";
+import { useCallToActions } from '@/composables/useCallToActions'
+import CallToAction from './components/CallToAction.vue';
+
+const useCTA = useCallToActions()
+provide('cta', useCTA)
 
 const items = ref([
     {

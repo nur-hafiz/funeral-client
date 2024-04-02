@@ -28,30 +28,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onMounted, inject } from 'vue';
 import { useServices } from '@/composables/useServices'
 import Support from './Support.vue'
 import { usePages } from '@/composables/usePages'
 import { useMedias } from '@/composables/useMedias'
-import Service from './Service.vue';
 import type { Service as ServiceType } from '@/types/Services.ts'
 import type { Home } from '@/types/Home.ts'
 import type { Media } from '@/types/Media.ts'
-import CallToAction from '@/components/CallToAction.vue'
-
+import { useCallToActions } from '@/composables/useCallToActions';
+const cta = inject('cta') as ReturnType<typeof useCallToActions>;
 const { api } = useServices()
 const useMedia = useMedias()
 const usePage = usePages()
 const home = reactive({}) as Home
 const herobanner = reactive({}) as Media;
 const heroSquareImage = reactive({}) as Media;
-
 const services = ref<ServiceType[]>([])
 
 onMounted(async () => {
     Object.assign(home, await usePage.api.getPageBySlug('home'))
     Object.assign(herobanner, await useMedia.api.getMediaByID(home.featured_media))
     Object.assign(heroSquareImage, await useMedia.api.getMediaByID(home.acf.square_header_image))
+    cta.update(home)
     services.value = await api.getAll()
 })
 </script>
