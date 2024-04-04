@@ -1,73 +1,78 @@
 import { ref } from 'vue';
-import type { Ref } from 'vue'
-// Define a type for the global window object to include the initMap function
+import type { Ref } from 'vue';
+
 declare global {
-    var google: any;
+  interface Window {
+    initMap: () => void;
+    google: any;
+  }
 }
 
 const API_KEY = 'AIzaSyBTd0nexVANwfiIRZcLuRW450w4a6lkx2s';
 const coordinates = { lat: 1.349591, lng: 103.698654 };
 
 export const useGoogleMaps = (mapElement: Ref<HTMLElement | null>) => {
-    const isMapLoaded = ref(false);
+  const isMapLoaded = ref(false);
 
-    const loadGoogleMapsScript = () => {
-        // Check if the Google Maps API script is already loaded
-        if (typeof google !== 'undefined' && google.maps) {
-            initMap();
-            return;
-        }
+  // Define the promise outside of the loadGoogleMapsScript function
+  // to ensure it's only created once.
+  let mapLoadPromise: Promise<void> | null = null;
 
-        // Create a script element to load the Google Maps API
-        const script = document.createElement('script');
-        script.async = true;
-        script.defer = true;
-        script.src = 'https://maps.googleapis.com/maps/api/js?key=' + API_KEY + '&callback=initMap&libraries=maps,marker&v=beta';
-        document.head.appendChild(script);
+  const loadGoogleMapsScript = () => {
+    if (window.google && window.google.maps) {
+      // If the Google Maps API is already loaded, resolve immediately.
+      if (!isMapLoaded.value) {
+        window.initMap();
+      }
+      return Promise.resolve();
     }
 
-    const initMap = () => {
-        loadGoogleMapsScript()
-
-        // Create a map centered on coodinates
-        if (mapElement.value) {
-            const map = new google.maps.Map(mapElement.value, {
-                zoom: 16,
-                center: coordinates, 
+    if (!mapLoadPromise) {
+      // Create the promise if it doesn't exist yet.
+      mapLoadPromise = new Promise<void>((resolve) => {
+        // Assign initMap to window to ensure it's called after the script loads.
+        window.initMap = () => {
+          if (mapElement.value) {
+            const map = new window.google.maps.Map(mapElement.value, {
+              zoom: 16,
+              center: coordinates,
             });
             isMapLoaded.value = true;
             console.debug('Google Maps initialized.');
 
-            // Add a marker to the coordinates
-            const marker = new google.maps.Marker({
-                position: coordinates,
-                map: map,
-                title: 'Jurong Spring CC',
+            const marker = new window.google.maps.Marker({
+              position: coordinates,
+              map: map,
+              title: 'Jurong Spring CC',
             });
 
-            // Define the content of the InfoWindow
-            const infoWindowContent = 
-            `<div id="content">
-                <div id="siteNotice">
-                </div>
-
+            const infoWindowContent = `
+              <div id="content">
                 <h2>Jurong Spring CC</h2>
                 <p><b>Jurong Spring Community Club</b>, your go-to place for community activities and events.</p>
-                <p>
-                    <a href="https://www.google.com/maps/dir/?api=1&destination=${coordinates.lat},${coordinates.lng}" target="_blank">Get Directions</a></p>
-                </p>
-            </div>`;
+                <p><a href="https://www.google.com/maps/dir/?api=1&destination=${coordinates.lat},${coordinates.lng}" target="_blank">Get Directions</a></p>
+              </div>`;
 
-            // Create an InfoWindow
-            const infoWindow = new google.maps.InfoWindow({
-                content: infoWindowContent
+            const infoWindow = new window.google.maps.InfoWindow({
+              content: infoWindowContent,
             });
 
-            // Open the InfoWindow immediately over the marker
             infoWindow.open(map, marker);
-        }
 
+            resolve(); // Resolve the promise once the map is initialized
+          }
+        };
+      });
+
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&callback=initMap`;
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
     }
 
-    return { isMapLoaded, initMap };
-}
+    return mapLoadPromise;
+  };
+
+  return { isMapLoaded, loadGoogleMapsScript };
+};

@@ -1,35 +1,34 @@
 <template>
-    <div>
-      <div ref="mapElement" style="height: 400px;"></div>
-    </div>
-  </template>
+  <div ref="mapElement" style="height: 400px;"></div>
+</template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useGoogleMaps } from '@/composables/useGoogleMaps'
+import { useGoogleMaps } from '@/composables/useGoogleMaps';
+
+// Create a ref for the map element
 const mapElement = ref<HTMLElement | null>(null);
 
-const useGoogleMap = useGoogleMaps(mapElement);
+// Initialize the composable with the map element ref
+const { loadGoogleMapsScript } = useGoogleMaps(mapElement);
 
-onMounted(() => {
-    useGoogleMap.initMap()
-})
+// Ensure the Google Maps script is loaded and the map is initialized
+// once the component is mounted and the DOM is ready
+onMounted(async () => {
+  await loadGoogleMapsScript();
+});
 </script>
 
-
-
 <style>
-      /* Always set the map height explicitly to define the size of the div
-       
-element that contains the map. */
-    gmp-map {
-      height: 100%;}
+/* Define the size of the div element that contains the map. */
+div[ref="mapElement"] {
+  height: 400px; /* Adjust the height as needed */
+}
 
-      /* Optional: Makes the sample page fill the window. */
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
+/* Optional: Makes the sample page fill the window. */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+</style>
