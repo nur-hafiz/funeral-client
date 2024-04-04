@@ -1,5 +1,5 @@
 <template>
-      <Menubar :model="items" id="navbar" class="ps-0">
+      <Menubar :model="items" id="navbar">
           <template #item="{ item, props, hasSubmenu }">
               <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
                   <a v-ripple :href="href" v-bind="props.action" @click="navigate">
