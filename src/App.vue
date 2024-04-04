@@ -1,5 +1,5 @@
 <template>
-      <Menubar :model="items" id="navbar">
+      <Menubar :model="items" id="navbar" class="ps-0">
           <template #item="{ item, props, hasSubmenu }">
               <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
                   <a v-ripple :href="href" v-bind="props.action" @click="navigate">
@@ -45,18 +45,26 @@ const items = ref([
         route: '/about'
     },
     {
-        label: 'Services',
-        icon: 'pi pi-link',
-        items: [
-            {
-                label: 'Packages',
-                route: '/packages'
-            },
-            {
-                label: 'Services',
-                route: '/services'
-            }
-        ]
-    },
+        label: 'Packages',
+        route: '/packages'
+    },  
+    {
+        label: 'Contact',
+        route: '/contact'
+    }  
+    // {
+    //     label: 'Services',
+    //     icon: 'pi pi-link',
+    //     items: [
+    //         {
+    //             label: 'Packages',
+    //             route: '/packages'
+    //         },
+    //         {
+    //             label: 'Services',
+    //             route: '/services'
+    //         }
+    //     ]
+    // },
 ]);
 </script>
