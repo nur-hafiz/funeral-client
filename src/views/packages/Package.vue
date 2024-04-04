@@ -24,7 +24,7 @@ const props = defineProps<{
 }>();
 
 // wanted to name it package but package is a reserved keyword
-const bundle: Package = reactive({});
+const bundle= reactive({}) as Package;
 const price: Ref<number> = ref(0);
 const fetchedServices: Ref<Service[]> = ref([])
 
