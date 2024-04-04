@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <div class="row pt-5">
-            <div class="d-flex flex-column align-items-center justify-content-center mb-5">
+            <div class="text-center d-flex flex-column align-items-center justify-content-center mb-5">
                 <h1 class="display-2 mt-n3">{{ about.acf?.page_title }}</h1>
                 <p class="display-6 pb-5">{{ about.acf?.page_sub_title }}</p>
             </div>
