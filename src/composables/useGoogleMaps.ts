@@ -1,6 +1,5 @@
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import type { Ref } from 'vue';
-
 declare global {
   interface Window {
     initMap: () => void;
@@ -8,19 +7,18 @@ declare global {
   }
 }
 
+// No longer need to manually declare the `google` object or `initMap` on `window`.
+
 const API_KEY = 'AIzaSyBTd0nexVANwfiIRZcLuRW450w4a6lkx2s';
 const coordinates = { lat: 1.349591, lng: 103.698654 };
 
 export const useGoogleMaps = (mapElement: Ref<HTMLElement | null>) => {
   const isMapLoaded = ref(false);
 
-  // Define the promise outside of the loadGoogleMapsScript function
-  // to ensure it's only created once.
   let mapLoadPromise: Promise<void> | null = null;
 
   const loadGoogleMapsScript = () => {
     if (window.google && window.google.maps) {
-      // If the Google Maps API is already loaded, resolve immediately.
       if (!isMapLoaded.value) {
         window.initMap();
       }
@@ -28,9 +26,7 @@ export const useGoogleMaps = (mapElement: Ref<HTMLElement | null>) => {
     }
 
     if (!mapLoadPromise) {
-      // Create the promise if it doesn't exist yet.
       mapLoadPromise = new Promise<void>((resolve) => {
-        // Assign initMap to window to ensure it's called after the script loads.
         window.initMap = () => {
           if (mapElement.value) {
             const map = new window.google.maps.Map(mapElement.value, {
@@ -59,7 +55,7 @@ export const useGoogleMaps = (mapElement: Ref<HTMLElement | null>) => {
 
             infoWindow.open(map, marker);
 
-            resolve(); // Resolve the promise once the map is initialized
+            resolve();
           }
         };
       });
@@ -73,6 +69,9 @@ export const useGoogleMaps = (mapElement: Ref<HTMLElement | null>) => {
 
     return mapLoadPromise;
   };
+
+  // Ensure the initMap function is globally accessible for the Google Maps callback
+  window.initMap = () => mapLoadPromise?.then(() => {});
 
   return { isMapLoaded, loadGoogleMapsScript };
 };
