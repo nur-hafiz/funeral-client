@@ -15,15 +15,6 @@
     </div>
 
     <Support />
-    <CallToAction v-if="home.acf" :page="home"/>
-
-    <div v-if="usePage.callToAction.slug">
-        <h5>{{ home.acf.call_to_action_title }}</h5>
-        <h6>{{ home.acf.call_to_action_sub_title }}</h6>
-        <router-link :to="usePage.callToAction.slug">
-            <Button class="position-relative" style="top: -1px" :label="home.acf.call_to_action_button_label" />
-        </router-link>
-    </div>
     <!-- <Service v-for="service in services" :key="service.id" :service="service"/> -->
 </template>
 
