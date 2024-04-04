@@ -1,12 +1,12 @@
 <template>
     <div class="row">
         <div class="offset-md-1 col-md-4 offset-lg-2 col-lg-3 mb-3">
-            <h2 class="display-4 d-md-none mb-4">{{ about.acf.founding_header }}</h2>
+            <h2 class="display-4 d-md-none mb-4 text-center">{{ about.acf.founding_header }}</h2>
             <img v-if="founderImage.guid" :src="founderImage.guid.rendered" :alt="founderImage.alt_text">
-            <h3 class="lead text-center">{{ about.acf.founder_name }}</h3>
+            <h3 class="lead text-center mt-1">{{ about.acf.founder_name }}</h3>
         </div>
         <div class="col-md-7">
-            <h2 class="display-4 d-none d-md-block mb-4">{{ about.acf.founding_header }}</h2>
+            <h2 class="display-4 d-none d-md-block mb-4 text-start">{{ about.acf.founding_header }}</h2>
             <p>{{ about.acf.founding_excerpt }}</p>
         </div>
     </div>
