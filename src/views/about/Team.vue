@@ -1,11 +1,12 @@
 <template>
     <div class="row">
-        <div class="col-lg-5 offset-lg-2">
+        <div class="offset-md-1 col-md-5 offset-lg-2">
             <h2 class="display-4 mb-4 text-end">{{ about.acf.team_section_title }}</h2>
+            <img class="d-md-none mb-4" v-if="teamImage.guid" :src="teamImage.guid.rendered" :alt="teamImage.alt_text">
             <p class="text-end">{{ about.acf.team_description }}</p>
         </div>
 
-        <div class="offset-lg-1 col-lg-3">
+        <div class="d-none d-md-block offset-md-1 col-md-5 col-lg-4">
             <img v-if="teamImage.guid" :src="teamImage.guid.rendered" :alt="teamImage.alt_text">
         </div>
     </div>
