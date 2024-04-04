@@ -1,6 +1,6 @@
 <template>
-    <div class="row pt-5">
-        <div class="col-6 d-flex flex-column justify-content-center">
+    <div class="header d-flex flex-column justify-content-start justify-content-lg-center position-relative mt-5">
+        <div class="header-text col-10 col-lg-6 mt-2 mt-lg-0 p-4 ">
             <h1 class="display-1 mt-n3">{{ home.acf?.page_title }}</h1>
             <p class="display-5 pb-5">{{ home.acf?.page_sub_title }}</p>
             <router-link to="/packages">
@@ -8,10 +8,8 @@
             </router-link>
         </div>
 
-        <div class="header-images col-6 position-relative">
-            <img class="position-absolute" v-if="herobanner.guid" :src="herobanner.guid.rendered" :alt="herobanner.alt_text">
-            <img class="position-absolute" v-if="heroSquareImage.guid" :src="heroSquareImage.guid.rendered" :alt="heroSquareImage.alt_text">
-        </div>
+        <img class="position-absolute" v-if="herobanner.guid" :src="herobanner.guid.rendered" :alt="herobanner.alt_text">
+        <img class="position-absolute" v-if="heroSquareImage.guid" :src="heroSquareImage.guid.rendered" :alt="heroSquareImage.alt_text">
     </div>
 
     <Support />
@@ -46,24 +44,60 @@ onMounted(async () => {
 })
 </script>
 
-<style scoped>
-.header-images {
-    height: 700px;
+<style lang="scss" scoped>
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
 
-    img {
-        height: 400px;
-        top: 10px;
-        width: unset;
-    }
+.header {
+    height: 500px;
 
-    img:first-child {
-        right: 30px;
-    }
-
-    img:last-child {
+    img:nth-of-type(1) {
+        top: 60px;
         right: 0;
-        border: 15px solid #F5F5F5;
-        top: 200px;
     }
+
+    img:nth-of-type(2) {
+        right: 0;
+        border: 10px solid #F5F5F5;
+        top: 200px;
+        height: 250px;
+        width: 250px;
+    }
+
+
+    @include media-breakpoint-up(md) {
+        img:nth-of-type(2) {
+            border: 15px solid #F5F5F5;
+            top: 250px;
+            height: 300px;
+            width: 300px;
+        }
+    }
+    
+    @include media-breakpoint-up(lg) {
+        height: 700px;
+
+        img {
+            height: 400px;
+            width: unset;
+        }
+
+        img:nth-of-type(1) {
+            top: 10px;
+            right: 30px;
+        }
+
+        img:nth-of-type(2) {
+            border: 15px solid #F5F5F5;
+            width: unset;
+            top: 200px;
+        }
+    }
+}
+
+.header-text {
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.6)
 }
 </style>
