@@ -13,7 +13,7 @@
 import type { Ref } from 'vue';
 import { ref, reactive, onMounted } from 'vue'
 import type { Service } from '@/types/Services'
-import type { Package } from '@/types/Package';
+import type { Package } from '@/types/Packages';
 import { usePackages } from '@/composables/usePackages'
 import { useServices } from '@/composables/useServices';
 const usePackage = usePackages()
