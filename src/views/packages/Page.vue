@@ -1,11 +1,11 @@
 <template>
-    <div class="row pt-5">
-        <div class="col-6 d-flex flex-column justify-content-center">
+    <div class="row justify-content-evenly gx-2 pt-5">
+        <div class="text-center d-flex flex-column justify-content-center">
             <h1 class="display-1 mt-n3">{{ page.acf?.page_title }}</h1>
             <p class="display-5 pb-5">{{ page.acf?.page_sub_title }}</p>
         </div>
 
-        <Package class="mb-4" v-for="bundle in packages" :package="bundle"/>
+        <Package class="mb-4 col-lg-5" v-for="bundle in packages" :package="bundle"/>
     </div>
 </template>
 
