@@ -1,5 +1,5 @@
 <template>
-      <Menubar :model="items" id="navbar">
+      <Menubar :model="items" id="navbar" class="px-4">
           <template #item="{ item, props, hasSubmenu }">
               <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
                   <a v-ripple :href="href" v-bind="props.action" @click="navigate">
@@ -15,25 +15,44 @@
           </template>
       </Menubar>
 
-    <main class="pb-4">
+    <main class="pb-4 px-4">
         <RouterView />
     </main>
 
     <CallToAction />
-    <footer>
-        
+
+    <footer class="px-4 d-flex justify-content-between">
+        <span>Funeral Service Company © Since 1998</span>
+        <ul class="d-flex">
+            <li v-for="social in socials" class="socials">
+                <a class="d-block" :href="social.acf.link" target="_blank">
+                    <i :class="useSocial.icon(social.title.rendered)" style="font-size: 20px;" />
+                    
+                </a>
+            </li>
+        </ul>
     </footer>
 </template>
 
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import Menubar from 'primevue/menubar';
-import { ref, provide } from "vue";
+import { ref, provide, onMounted } from "vue";
 import { useCallToActions } from '@/composables/useCallToActions'
+import { useSocials } from '@/composables/useSocials'
 import CallToAction from './components/CallToAction.vue';
 
 const useCTA = useCallToActions()
+const useSocial = useSocials()
+const { socials, icon } = useSocial
+
+onMounted(async () => {
+    useSocial.api.getAll()
+})
+
 provide('cta', useCTA)
+provide('socials', socials)
+
 
 const items = ref([
     {
@@ -68,3 +87,10 @@ const items = ref([
     // },
 ]);
 </script>
+
+<style>
+.socials a {
+    width: 25px;
+    height: 25px;
+}
+</style>
