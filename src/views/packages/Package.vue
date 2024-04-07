@@ -3,7 +3,7 @@
         <template #title>{{ bundle.title.rendered }} - SGD {{ price }}</template>
         <template #content>
             <ul class="m-0 p-0">
-                <li v-for="service in fetchedServices" :key="service.id">{{ service.title.rendered }}</li>
+                <li style="list-style: unset; list-style-position: inside;" v-for="service in fetchedServices" :key="service.id">{{ service.title.rendered }}</li>
             </ul>
         </template>
     </Card>
