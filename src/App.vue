@@ -1,18 +1,25 @@
 <template>
       <Menubar :model="items" id="navbar" class="px-4">
-          <template #item="{ item, props, hasSubmenu }">
-              <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
-                  <a v-ripple :href="href" v-bind="props.action" @click="navigate">
-                      <span :class="item.icon" />
-                      <span class="ml-2">{{ item.label }}</span>
-                  </a>
-              </router-link>
-              <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
-                  <span :class="item.icon" />
-                  <span class="ml-2">{{ item.label }}</span>
-                  <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down ml-2" />
-              </a>
-          </template>
+        <template #start>
+            <router-link :to="'/'" class="me-auto">
+                <img id="nav-logo" :src="'/logo.png'" alt="company logo">
+            </router-link>
+        </template>
+
+        <template #item="{ item, props, hasSubmenu }">
+        <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
+            <a v-ripple :href="href" v-bind="props.action" @click="navigate">
+                <span :class="item.icon" />
+                <span class="ml-2">{{ item.label }}</span>
+            </a>
+        </router-link>
+
+        <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
+            <span :class="item.icon" />
+            <span class="ml-2">{{ item.label }}</span>
+            <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down ml-2" />
+        </a>
+        </template>
       </Menubar>
 
     <main class="pb-4 px-4">
@@ -93,9 +100,29 @@ const items = ref([
 ]);
 </script>
 
-<style>
+<style lang="scss">
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
 .socials a {
     width: 25px;
     height: 25px;
+}
+
+.p-menubar-start {
+    margin-right: 1rem;
+
+    @include media-breakpoint-up(lg) {
+        margin-right: 1.5rem;
+    }
+}
+
+#nav-logo {
+    height: 50px;
+
+    @include media-breakpoint-up(lg) {
+        height: 70px;
+    }
 }
 </style>
