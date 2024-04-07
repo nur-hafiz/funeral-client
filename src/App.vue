@@ -26,8 +26,7 @@
         <ul class="d-flex">
             <li v-for="social in socials" class="socials">
                 <a class="d-block" :href="social.acf.link" target="_blank">
-                    <i :class="useSocial.icon(social.title.rendered)" style="font-size: 20px;" />
-                    
+                    <i :class="icon(social.title.rendered)" style="font-size: 20px;" />
                 </a>
             </li>
         </ul>
@@ -40,19 +39,25 @@ import Menubar from 'primevue/menubar';
 import { ref, provide, onMounted } from "vue";
 import { useCallToActions } from '@/composables/useCallToActions'
 import { useSocials } from '@/composables/useSocials'
+import { useContacts } from '@/composables/useContacts'
 import CallToAction from './components/CallToAction.vue';
 
 const useCTA = useCallToActions()
 const useSocial = useSocials()
+const useContact = useContacts()
+
 const { socials, icon } = useSocial
+const { contactInformation } = useContact
 
 onMounted(async () => {
     useSocial.api.getAll()
+    useContact.api.getContactInformation()
 })
 
 provide('cta', useCTA)
 provide('socials', socials)
-
+provide('socialsIcon', icon)
+provide('contactInformation', contactInformation)
 
 const items = ref([
     {

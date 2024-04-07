@@ -2,22 +2,31 @@
     <Card v-if="bundle.title">
         <template #title>{{ bundle.title.rendered }} - SGD {{ price }}</template>
         <template #content>
-            <ul class="m-0 p-0">
+            <ul class="m-0 mb-3 p-0">
                 <li style="list-style: unset; list-style-position: inside;" v-for="service in fetchedServices" :key="service.id">{{ service.title.rendered }}</li>
             </ul>
+
+            <a target="_blank" rel="noopener" :href="'https://wa.me/' + format.whatsapp(contactInformation.contact_number)">
+                <Button label="Whatsapp" />
+            </a>
         </template>
     </Card>
 </template>
 
 <script setup lang="ts">
 import type { Ref } from 'vue';
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, inject } from 'vue'
 import type { Service } from '@/types/Services'
 import type { Package } from '@/types/Packages';
+import type { Contact } from '@/types/Contact';
 import { usePackages } from '@/composables/usePackages'
 import { useServices } from '@/composables/useServices';
+import { useContacts } from '@/composables/useContacts';
+const { format } = useContacts()
 const usePackage = usePackages()
 const useService = useServices()
+
+const contactInformation = inject('contactInformation') as Contact['acf']
 
 const props = defineProps<{
     package: Package;

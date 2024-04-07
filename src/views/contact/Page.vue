@@ -1,34 +1,58 @@
 <template>
-  <div ref="mapElement" style="height: 400px;"></div>
+  <div class="row">
+    <div class="header-text mt-2 mt-lg-0 p-4 text-center">
+      <h1 class="display-1 mt-n3">{{ page.acf?.page_title }}</h1>
+      <p class="display-5 pb-5">{{ page.acf?.page_sub_title }}</p>
+    </div>
+
+    <div class="col-lg-6">
+      <h2 class="display-6 mb-3">Contact us directly at:</h2>
+      <ul class="px-0 mb-4">
+        <li class="d-flex align-items-center mb-2">
+          <i :class="'me-2 pi pi-phone'" style="font-size: 20px;" />
+          <a :href="'tel:' + page?.acf?.contact_number">
+            {{ page?.acf?.contact_number }}
+          </a>
+        </li>
+
+        <li class="d-flex align-items-center">
+          <i :class="'me-2 pi pi-envelope'" style="font-size: 20px;" />
+          <a :href="'mailto:' + page?.acf?.email">
+            {{ page?.acf?.email }}
+          </a>
+        </li>
+      </ul>
+
+      <h2 class="display-6 mb-3">Or follow us on social media:</h2>
+      <ul class="d-flex px-0">
+            <li v-for="social in socials" class="me-2">
+                <a class="d-block" :href="social.acf.link" target="_blank">
+                    <i :class="icons(social.title.rendered)" style="font-size: 20px;" />
+                </a>
+            </li>
+        </ul>
+    </div>
+    <Map class="col-lg-6"/>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { useGoogleMaps } from '@/composables/useGoogleMaps';
+import { ref, onMounted, reactive, inject } from 'vue';
+import { usePages } from '@/composables/usePages';
+import type { Contact } from '@/types/Contact';
+import Map from './Map.vue';
+import { useCallToActions } from '@/composables/useCallToActions';
+import type { Social } from '@/types/Social';
+import type { Ref } from 'vue';
 
-// Create a ref for the map element
-const mapElement = ref<HTMLElement | null>(null);
+const icons = inject('socialsIcon') as (name: string) => string;
+const socials = inject('socials') as Ref<Social[]>;
+const cta = inject('cta') as ReturnType<typeof useCallToActions>;
+const page = reactive({}) as Contact
+const usePage = usePages()
 
-// Initialize the composable with the map element ref
-const { loadGoogleMapsScript } = useGoogleMaps(mapElement);
-
-// Ensure the Google Maps script is loaded and the map is initialized
-// once the component is mounted and the DOM is ready
 onMounted(async () => {
-  await loadGoogleMapsScript();
-});
+    Object.assign(page, await usePage.api.getPageBySlug('contact'))
+    cta.update(page)
+})
 </script>
-
-<style>
-/* Define the size of the div element that contains the map. */
-div[ref="mapElement"] {
-  height: 400px; /* Adjust the height as needed */
-}
-
-/* Optional: Makes the sample page fill the window. */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-</style>
